@@ -6,6 +6,9 @@ namespace Inputs.InputImpls
 {
     public class KeyInputEventProvider : MonoBehaviour, IInputEventProvider
     {
+        private readonly ReactiveProperty<float> _onNumber = new FloatReactiveProperty();
+        private readonly ReactiveProperty<string> _onOperator = new StringReactiveProperty();
+        
         private readonly ReactiveProperty<bool> _onPlus = new BoolReactiveProperty();
         private readonly ReactiveProperty<bool> _onMinus = new BoolReactiveProperty();
         private readonly ReactiveProperty<bool> _onMultiplied = new BoolReactiveProperty();
@@ -21,6 +24,9 @@ namespace Inputs.InputImpls
         private readonly ReactiveProperty<bool> _onSeven = new BoolReactiveProperty();
         private readonly ReactiveProperty<bool> _onEight = new BoolReactiveProperty();
         private readonly ReactiveProperty<bool> _onNine = new BoolReactiveProperty();
+        
+        public IReadOnlyReactiveProperty<float> OnNumber => _onNumber;
+        public IReadOnlyReactiveProperty<string> OnOperator => _onOperator;
         
         public IReadOnlyReactiveProperty<bool> OnPlus => _onPlus;
         public IReadOnlyReactiveProperty<bool> OnMinus => _onMinus;
