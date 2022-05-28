@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
@@ -6,9 +7,6 @@ namespace Inputs.InputImpls
 {
     public class KeyInputEventProvider : MonoBehaviour, IInputEventProvider
     {
-        private readonly ReactiveProperty<float> _onNumber = new FloatReactiveProperty();
-        private readonly ReactiveProperty<string> _onOperator = new StringReactiveProperty();
-        
         private readonly ReactiveProperty<bool> _onPlus = new BoolReactiveProperty();
         private readonly ReactiveProperty<bool> _onMinus = new BoolReactiveProperty();
         private readonly ReactiveProperty<bool> _onMultiplied = new BoolReactiveProperty();
@@ -24,10 +22,7 @@ namespace Inputs.InputImpls
         private readonly ReactiveProperty<bool> _onSeven = new BoolReactiveProperty();
         private readonly ReactiveProperty<bool> _onEight = new BoolReactiveProperty();
         private readonly ReactiveProperty<bool> _onNine = new BoolReactiveProperty();
-        
-        public IReadOnlyReactiveProperty<float> OnNumber => _onNumber;
-        public IReadOnlyReactiveProperty<string> OnOperator => _onOperator;
-        
+
         public IReadOnlyReactiveProperty<bool> OnPlus => _onPlus;
         public IReadOnlyReactiveProperty<bool> OnMinus => _onMinus;
         public IReadOnlyReactiveProperty<bool> OnMultiplied => _onMultiplied;
@@ -47,12 +42,12 @@ namespace Inputs.InputImpls
         private void Start()
         {
             this.UpdateAsObservable()
-                .Select(_ => Input.GetKey(KeyCode.Plus))
+                .Select(_ => Input.GetKey(KeyCode.Semicolon))
                 .DistinctUntilChanged()
                 .Subscribe(x =>
                 {
                     _onPlus.Value = x;
-                });
+                }).AddTo(this);
             
             this.UpdateAsObservable()
                 .Select(_ => Input.GetKey(KeyCode.Minus))
@@ -60,15 +55,15 @@ namespace Inputs.InputImpls
                 .Subscribe(x =>
                 {
                     _onMinus.Value = x;
-                });
+                }).AddTo(this);
             
             this.UpdateAsObservable()
-                .Select(_ => Input.GetKey(KeyCode.Asterisk))
+                .Select(_ => Input.GetKey(KeyCode.Colon))
                 .DistinctUntilChanged()
                 .Subscribe(x =>
                 {
                     _onMultiplied.Value = x;
-                });
+                }).AddTo(this);
             
             this.UpdateAsObservable()
                 .Select(_ => Input.GetKey(KeyCode.Slash))
@@ -76,15 +71,15 @@ namespace Inputs.InputImpls
                 .Subscribe(x =>
                 {
                     _onDivided.Value = x;
-                });
+                }).AddTo(this);
             
             this.UpdateAsObservable()
-                .Select(_ => Input.GetKey(KeyCode.Equals))
+                .Select(_ => Input.GetKey(KeyCode.Return))
                 .DistinctUntilChanged()
                 .Subscribe(x =>
                 {
                     _onEquals.Value = x;
-                });
+                }).AddTo(this);
             
             this.UpdateAsObservable()
                 .Select(_ => Input.GetKey(KeyCode.Alpha0))
@@ -92,7 +87,7 @@ namespace Inputs.InputImpls
                 .Subscribe(x =>
                 {
                     _onZero.Value = x;
-                });
+                }).AddTo(this);
             
             this.UpdateAsObservable()
                 .Select(_ => Input.GetKey(KeyCode.Alpha1))
@@ -100,7 +95,7 @@ namespace Inputs.InputImpls
                 .Subscribe(x =>
                 {
                     _onOne.Value = x;
-                });
+                }).AddTo(this);
             
             this.UpdateAsObservable()
                 .Select(_ => Input.GetKey(KeyCode.Alpha2))
@@ -108,7 +103,7 @@ namespace Inputs.InputImpls
                 .Subscribe(x =>
                 {
                     _onTwo.Value = x;
-                });
+                }).AddTo(this);
             
             this.UpdateAsObservable()
                 .Select(_ => Input.GetKey(KeyCode.Alpha3))
@@ -116,7 +111,7 @@ namespace Inputs.InputImpls
                 .Subscribe(x =>
                 {
                     _onThree.Value = x;
-                });
+                }).AddTo(this);
             
             this.UpdateAsObservable()
                 .Select(_ => Input.GetKey(KeyCode.Alpha4))
@@ -124,7 +119,7 @@ namespace Inputs.InputImpls
                 .Subscribe(x =>
                 {
                     _onFour.Value = x;
-                });
+                }).AddTo(this);
             
             this.UpdateAsObservable()
                 .Select(_ => Input.GetKey(KeyCode.Alpha5))
@@ -132,7 +127,7 @@ namespace Inputs.InputImpls
                 .Subscribe(x =>
                 {
                     _onFive.Value = x;
-                });
+                }).AddTo(this);
             
             this.UpdateAsObservable()
                 .Select(_ => Input.GetKey(KeyCode.Alpha6))
@@ -140,7 +135,7 @@ namespace Inputs.InputImpls
                 .Subscribe(x =>
                 {
                     _onSix.Value = x;
-                });
+                }).AddTo(this);
             
             this.UpdateAsObservable()
                 .Select(_ => Input.GetKey(KeyCode.Alpha7))
@@ -148,7 +143,7 @@ namespace Inputs.InputImpls
                 .Subscribe(x =>
                 {
                     _onSeven.Value = x;
-                });
+                }).AddTo(this);
             
             this.UpdateAsObservable()
                 .Select(_ => Input.GetKey(KeyCode.Alpha8))
@@ -156,7 +151,7 @@ namespace Inputs.InputImpls
                 .Subscribe(x =>
                 {
                     _onEight.Value = x;
-                });
+                }).AddTo(this);
             
             this.UpdateAsObservable()
                 .Select(_ => Input.GetKey(KeyCode.Alpha9))
@@ -164,9 +159,19 @@ namespace Inputs.InputImpls
                 .Subscribe(x =>
                 {
                     _onNine.Value = x;
-                });
+                }).AddTo(this);
 
         }
+        // private void Update () {
+        //     if (Input.anyKeyDown) {
+        //         foreach (KeyCode code in Enum.GetValues(typeof(KeyCode))) {
+        //             if (Input.GetKeyDown (code)) {
+        //                 Debug.Log(code);
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
     

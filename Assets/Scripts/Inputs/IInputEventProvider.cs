@@ -4,9 +4,6 @@ namespace Inputs
 {
     public interface IInputEventProvider
     {
-        IReadOnlyReactiveProperty<float> OnNumber { get; }
-        IReadOnlyReactiveProperty<string> OnOperator { get; }
-        
         IReadOnlyReactiveProperty<bool> OnPlus { get; }
         IReadOnlyReactiveProperty<bool> OnMinus { get; }
         IReadOnlyReactiveProperty<bool> OnMultiplied { get; }
