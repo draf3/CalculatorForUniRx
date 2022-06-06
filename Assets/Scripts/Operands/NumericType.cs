@@ -13,5 +13,6 @@ namespace Operands
         Seven,
         Eight,
         Nine,
+        Decimal,
     }
 }

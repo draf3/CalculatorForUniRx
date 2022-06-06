@@ -7,6 +7,6 @@ namespace Operators
         Minus,
         Multiplied,
         Divided,
-        Equals
+        Equals,
     }
 }

@@ -12,6 +12,13 @@ namespace Inputs.InputImpls
         private readonly ReactiveProperty<bool> _onMultiplied = new BoolReactiveProperty();
         private readonly ReactiveProperty<bool> _onDivided = new BoolReactiveProperty();
         private readonly ReactiveProperty<bool> _onEquals = new BoolReactiveProperty();
+        
+        private readonly ReactiveProperty<bool> _onClearEntry = new BoolReactiveProperty();
+        private readonly ReactiveProperty<bool> _onDisable = new BoolReactiveProperty();
+        private readonly ReactiveProperty<bool> _onMemoryRecall = new BoolReactiveProperty();
+        private readonly ReactiveProperty<bool> _onMemoryPlus = new BoolReactiveProperty();
+        private readonly ReactiveProperty<bool> _onMemoryMinus = new BoolReactiveProperty();
+        
         private readonly ReactiveProperty<bool> _onZero = new BoolReactiveProperty();
         private readonly ReactiveProperty<bool> _onOne = new BoolReactiveProperty();
         private readonly ReactiveProperty<bool> _onTwo = new BoolReactiveProperty();
@@ -22,12 +29,20 @@ namespace Inputs.InputImpls
         private readonly ReactiveProperty<bool> _onSeven = new BoolReactiveProperty();
         private readonly ReactiveProperty<bool> _onEight = new BoolReactiveProperty();
         private readonly ReactiveProperty<bool> _onNine = new BoolReactiveProperty();
+        private readonly ReactiveProperty<bool> _onDecimal = new BoolReactiveProperty();
 
         public IReadOnlyReactiveProperty<bool> OnPlus => _onPlus;
         public IReadOnlyReactiveProperty<bool> OnMinus => _onMinus;
         public IReadOnlyReactiveProperty<bool> OnMultiplied => _onMultiplied;
         public IReadOnlyReactiveProperty<bool> OnDivided => _onDivided;
         public IReadOnlyReactiveProperty<bool> OnEquals => _onEquals;
+        
+        public IReadOnlyReactiveProperty<bool> OnClearEntry => _onClearEntry;
+        public IReadOnlyReactiveProperty<bool> OnDisable => _onDisable;
+        public IReadOnlyReactiveProperty<bool> OnMemoryRecall => _onMemoryRecall;
+        public IReadOnlyReactiveProperty<bool> OnMemoryPlus => _onMemoryPlus;
+        public IReadOnlyReactiveProperty<bool> OnMemoryMinus => _onMemoryMinus;
+        
         public IReadOnlyReactiveProperty<bool> OnZero => _onZero;
         public IReadOnlyReactiveProperty<bool> OnOne => _onOne;
         public IReadOnlyReactiveProperty<bool> OnTwo => _onTwo;
@@ -38,6 +53,7 @@ namespace Inputs.InputImpls
         public IReadOnlyReactiveProperty<bool> OnSeven => _onSeven;
         public IReadOnlyReactiveProperty<bool> OnEight => _onEight;
         public IReadOnlyReactiveProperty<bool> OnNine => _onNine;
+        public IReadOnlyReactiveProperty<bool> OnDecimal => _onDecimal;
 
         private void Start()
         {
@@ -159,6 +175,54 @@ namespace Inputs.InputImpls
                 .Subscribe(x =>
                 {
                     _onNine.Value = x;
+                }).AddTo(this);
+            
+            this.UpdateAsObservable()
+                .Select(_ => Input.GetKey(KeyCode.Period))
+                .DistinctUntilChanged()
+                .Subscribe(x =>
+                {
+                    _onDecimal.Value = x;
+                }).AddTo(this);
+            
+            this.UpdateAsObservable()
+                .Select(_ => Input.GetKey(KeyCode.C))
+                .DistinctUntilChanged()
+                .Subscribe(x =>
+                {
+                    _onClearEntry.Value = x;
+                }).AddTo(this);
+            
+            this.UpdateAsObservable()
+                .Select(_ => Input.GetKey(KeyCode.O))
+                .DistinctUntilChanged()
+                .Subscribe(x =>
+                {
+                    _onDisable.Value = x;
+                }).AddTo(this);
+            
+            this.UpdateAsObservable()
+                .Select(_ => Input.GetKey(KeyCode.R))
+                .DistinctUntilChanged()
+                .Subscribe(x =>
+                {
+                    _onMemoryRecall.Value = x;
+                }).AddTo(this);
+            
+            this.UpdateAsObservable()
+                .Select(_ => Input.GetKey(KeyCode.P))
+                .DistinctUntilChanged()
+                .Subscribe(x =>
+                {
+                    _onMemoryPlus.Value = x;
+                }).AddTo(this);
+            
+            this.UpdateAsObservable()
+                .Select(_ => Input.GetKey(KeyCode.M))
+                .DistinctUntilChanged()
+                .Subscribe(x =>
+                {
+                    _onMemoryMinus.Value = x;
                 }).AddTo(this);
 
         }

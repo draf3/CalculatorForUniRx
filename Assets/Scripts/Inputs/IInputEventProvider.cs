@@ -9,6 +9,13 @@ namespace Inputs
         IReadOnlyReactiveProperty<bool> OnMultiplied { get; }
         IReadOnlyReactiveProperty<bool> OnDivided { get; }
         IReadOnlyReactiveProperty<bool> OnEquals { get; }
+        
+        IReadOnlyReactiveProperty<bool> OnClearEntry { get; }
+        IReadOnlyReactiveProperty<bool> OnDisable { get; }
+        IReadOnlyReactiveProperty<bool> OnMemoryRecall { get; }
+        IReadOnlyReactiveProperty<bool> OnMemoryPlus{ get; }
+        IReadOnlyReactiveProperty<bool> OnMemoryMinus { get; }
+        
         IReadOnlyReactiveProperty<bool> OnZero { get; }
         IReadOnlyReactiveProperty<bool> OnOne { get; }
         IReadOnlyReactiveProperty<bool> OnTwo { get; }
@@ -19,6 +26,7 @@ namespace Inputs
         IReadOnlyReactiveProperty<bool> OnSeven { get; }
         IReadOnlyReactiveProperty<bool> OnEight { get; }
         IReadOnlyReactiveProperty<bool> OnNine { get; }
+        IReadOnlyReactiveProperty<bool> OnDecimal { get; }
     }
 }
     

@@ -30,15 +30,16 @@ namespace Expressions
                 .Subscribe(x =>
                 {
                     var lastSubstring = LastSubstring(_expression.Value);
-                    if (!IsNumeric(lastSubstring)) _expression.Value += ' ';
+                    if (!(IsNumeric(lastSubstring) || lastSubstring == "."))
+                         _expression.Value += ' ';
                         
-                    if (IsZeroString(_expression.Value))
+                    if (IsZeroString(_expression.Value) && x != ".")
                     {
-                        _expression.Value = x.ToString();
+                        _expression.Value = x;
                     }
                     else
                     {
-                        _expression.Value += x.ToString();
+                        _expression.Value += x;
                     }
                     Debug.Log(_expression.Value);
                     
@@ -53,14 +54,14 @@ namespace Expressions
                         if (_constantCalculation == null)
                         {
                             _constantCalculation = GetConstantCalculation(_expression.Value);
-                            _expression.Value = RpnCalculator.Calculate(_expression.Value).ToString();
                         }
                         else
                         {
                             _expression.Value += " ";
                             _expression.Value += _constantCalculation;
-                            _expression.Value = RpnCalculator.Calculate(_expression.Value).ToString();
                         }
+                        
+                        _expression.Value = RpnCalculator.Calculate(_expression.Value).ToString();
                         
                         Debug.Log(_expression.Value);
                         return;
