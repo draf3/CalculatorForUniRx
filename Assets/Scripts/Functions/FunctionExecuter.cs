@@ -105,7 +105,7 @@ namespace Functions
                 .Where(x => x)
                 .Subscribe(_ =>
                 {
-                    if (expressionProvider.IsSingle())
+                    if (expressionProvider.IsSingle() && double.Parse(expressionProvider.Expression.Value) > 0)
                     {
                         expressionProvider.Expression.Value =
                             Math.Sqrt(double.Parse(expressionProvider.Expression.Value)).ToString();
