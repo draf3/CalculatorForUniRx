@@ -18,6 +18,7 @@ namespace Expressions
 
         private string _constantCalculation = null;
         private readonly int _maxSymbol = 1;
+        private readonly int _maxOperand = 3;
 
         private void Start()
         {
@@ -89,7 +90,7 @@ namespace Expressions
                         _constantCalculation = null;
                     }
                     
-                    if (IsMaxSymbol(Expression.Value) && OperandList().Count == 3)
+                    if (IsMaxSymbol(Expression.Value) && OperandList().Count == _maxOperand)
                     {
                         Debug.Log(Expression.Value);
                         Expression.Value = RpnCalculator.Calculate(Expression.Value).ToString();
