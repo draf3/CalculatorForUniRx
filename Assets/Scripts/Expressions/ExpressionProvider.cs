@@ -89,8 +89,9 @@ namespace Expressions
                         _constantCalculation = null;
                     }
                     
-                    if (IsMaxSymbol(Expression.Value))
+                    if (IsMaxSymbol(Expression.Value) && OperandList().Count == 3)
                     {
+                        Debug.Log(Expression.Value);
                         Expression.Value = RpnCalculator.Calculate(Expression.Value).ToString();
                     }
                     
