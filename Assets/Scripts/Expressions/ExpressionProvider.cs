@@ -29,10 +29,9 @@ namespace Expressions
             Expression
                 .Select(x =>
                 {
-                    return x.ToString()
-                        .Split(' ')
-                        .Where(x => x != "")
-                        .Where(x => IsNumeric(x))
+                    return x.Split(' ')
+                        .Where(s => s != "")
+                        .Where(s => IsNumeric(s))
                         .ToList();
                 })
                 .SelectMany(x => x)
@@ -47,6 +46,8 @@ namespace Expressions
                 .Skip(1)
                 .Subscribe(x =>
                 {
+                    if (x == "." && CountChar(Expression.Value, '.') > 0) return;
+                    
                     var lastSubstring = LastSubstring(Expression.Value);
                     if (!(IsNumeric(lastSubstring) || lastSubstring == "."))
                          Expression.Value += ' ';
@@ -160,12 +161,17 @@ namespace Expressions
         
         private bool IsNumeric(string s) 
         {
-            return int.TryParse(s, out _);
+            return double.TryParse(s, out _);
         }
         
         private bool IsZeroString(string s) 
         {
             return s.Length == 1 && s == "0";
+        }
+        
+        private int CountChar(string s, char c) 
+        {
+            return s.Length - s.Replace(c.ToString(), "").Length;
         }
 
         private bool IsMaxSymbol(string s)
