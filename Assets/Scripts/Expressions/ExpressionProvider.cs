@@ -15,7 +15,6 @@ namespace Expressions
     public class ExpressionProvider : MonoBehaviour
     {
         public readonly ReactiveProperty<string> Expression = new StringReactiveProperty("0");
-        // public IReadOnlyReactiveProperty<string> Expression => _expression;
 
         private string _constantCalculation = null;
         private readonly int _maxSymbol = 1;
@@ -42,30 +41,6 @@ namespace Expressions
                     calculation.Display.Value = x;
                 })
                 .AddTo(this);
-
-            // Expression
-            //     .Select(x =>
-            //     {
-            //         return x.ToString()
-            //             .Split(' ')
-            //             .Where(x => x != "")
-            //             .ToList()
-            //             .Where(s => IsNumeric(s))
-            //             .Last();
-            //     })
-            //     .Subscribe(x =>
-            //     {
-            //         Debug.Log(x);
-            //         calculation.Display.Value = x;
-            //         
-            //     });
-            
-            // Expression
-            //     .Subscribe(x =>
-            //     {
-            //         Debug.Log(x);
-            //         calculation.Display.Value = x;
-            //     });
             
             numericProvider.Numeric
                 .Skip(1)
