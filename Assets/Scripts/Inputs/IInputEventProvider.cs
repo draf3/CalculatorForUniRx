@@ -15,6 +15,8 @@ namespace Inputs
         IReadOnlyReactiveProperty<bool> OnMemoryRecall { get; }
         IReadOnlyReactiveProperty<bool> OnMemoryPlus{ get; }
         IReadOnlyReactiveProperty<bool> OnMemoryMinus { get; }
+        IReadOnlyReactiveProperty<bool> OnSqrt{ get; }
+        IReadOnlyReactiveProperty<bool> OnPercentage { get; }
         
         IReadOnlyReactiveProperty<bool> OnZero { get; }
         IReadOnlyReactiveProperty<bool> OnOne { get; }

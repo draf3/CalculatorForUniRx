@@ -18,6 +18,8 @@ namespace Inputs.InputImpls
         private readonly ReactiveProperty<bool> _onMemoryRecall = new BoolReactiveProperty();
         private readonly ReactiveProperty<bool> _onMemoryPlus = new BoolReactiveProperty();
         private readonly ReactiveProperty<bool> _onMemoryMinus = new BoolReactiveProperty();
+        private readonly ReactiveProperty<bool> _onSqrt = new BoolReactiveProperty();
+        private readonly ReactiveProperty<bool> _onPercentage = new BoolReactiveProperty();
         
         private readonly ReactiveProperty<bool> _onZero = new BoolReactiveProperty();
         private readonly ReactiveProperty<bool> _onOne = new BoolReactiveProperty();
@@ -42,6 +44,8 @@ namespace Inputs.InputImpls
         public IReadOnlyReactiveProperty<bool> OnMemoryRecall => _onMemoryRecall;
         public IReadOnlyReactiveProperty<bool> OnMemoryPlus => _onMemoryPlus;
         public IReadOnlyReactiveProperty<bool> OnMemoryMinus => _onMemoryMinus;
+        public IReadOnlyReactiveProperty<bool> OnSqrt => _onSqrt;
+        public IReadOnlyReactiveProperty<bool> OnPercentage => _onPercentage;
         
         public IReadOnlyReactiveProperty<bool> OnZero => _onZero;
         public IReadOnlyReactiveProperty<bool> OnOne => _onOne;
@@ -210,7 +214,7 @@ namespace Inputs.InputImpls
                 }).AddTo(this);
             
             this.UpdateAsObservable()
-                .Select(_ => Input.GetKey(KeyCode.P))
+                .Select(_ => Input.GetKey(KeyCode.N))
                 .DistinctUntilChanged()
                 .Subscribe(x =>
                 {
@@ -223,6 +227,22 @@ namespace Inputs.InputImpls
                 .Subscribe(x =>
                 {
                     _onMemoryMinus.Value = x;
+                }).AddTo(this);
+            
+            this.UpdateAsObservable()
+                .Select(_ => Input.GetKey(KeyCode.S))
+                .DistinctUntilChanged()
+                .Subscribe(x =>
+                {
+                    _onSqrt.Value = x;
+                }).AddTo(this);
+            
+            this.UpdateAsObservable()
+                .Select(_ => Input.GetKey(KeyCode.P))
+                .DistinctUntilChanged()
+                .Subscribe(x =>
+                {
+                    _onPercentage.Value = x;
                 }).AddTo(this);
 
         }

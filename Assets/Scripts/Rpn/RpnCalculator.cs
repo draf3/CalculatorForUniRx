@@ -8,24 +8,24 @@ namespace Rpn
 {
     public class RpnCalculator
     {
-        public static float Calculate(string expression)
+        public static double Calculate(string expression)
         {
             var tokens = GetRpn(expression);
             Stack<object> stack = new Stack<object>();
             foreach (var token in tokens) {
                 if (IsOperator(token)) {
-                    var b = (float)stack.Pop();
-                    var a = (float)stack.Pop();
+                    var b = (double)stack.Pop();
+                    var a = (double)stack.Pop();
                     var c = Operate(a, b, token);
                     stack.Push(c);
                 } else {
-                    stack.Push(float.Parse(token));
+                    stack.Push(double.Parse(token));
                 }
             }
-            return (float)stack.Pop();
+            return (double)stack.Pop();
         }
 
-        private static float Operate(float a, float b, string o) {
+        private static double Operate(double a, double b, string o) {
             switch (o) {
                 case "+":
                     return a + b;

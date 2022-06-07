@@ -7,15 +7,15 @@ using UniRx;
 using Operators;
 using Operands;
 using Rpn;
-
+using Data;
 
 namespace Expressions
 {
     [RequireComponent(typeof(NumericProvider), typeof(SymbolProvider))]
     public class ExpressionProvider : MonoBehaviour
     {
-        private readonly ReactiveProperty<string> _expression = new StringReactiveProperty("0");
-        public IReadOnlyReactiveProperty<string> Expression => _expression;
+        public readonly ReactiveProperty<string> Expression = new StringReactiveProperty("0");
+        // public IReadOnlyReactiveProperty<string> Expression => _expression;
 
         private string _constantCalculation = null;
         private readonly int _maxSymbol = 1;
@@ -24,24 +24,66 @@ namespace Expressions
         {
             var numericProvider = GetComponent<NumericProvider>();
             var symbolProvider = GetComponent<SymbolProvider>();
+            var calculation = GetComponent<Calculation>();
+
+            Expression
+                .Select(x =>
+                {
+                    return x.ToString()
+                        .Split(' ')
+                        .Where(x => x != "")
+                        .Where(x => IsNumeric(x))
+                        .ToList();
+                })
+                .SelectMany(x => x)
+                .Subscribe(x =>
+                {
+                    Debug.Log(x);
+                    calculation.Display.Value = x;
+                })
+                .AddTo(this);
+
+            // Expression
+            //     .Select(x =>
+            //     {
+            //         return x.ToString()
+            //             .Split(' ')
+            //             .Where(x => x != "")
+            //             .ToList()
+            //             .Where(s => IsNumeric(s))
+            //             .Last();
+            //     })
+            //     .Subscribe(x =>
+            //     {
+            //         Debug.Log(x);
+            //         calculation.Display.Value = x;
+            //         
+            //     });
+            
+            // Expression
+            //     .Subscribe(x =>
+            //     {
+            //         Debug.Log(x);
+            //         calculation.Display.Value = x;
+            //     });
             
             numericProvider.Numeric
                 .Skip(1)
                 .Subscribe(x =>
                 {
-                    var lastSubstring = LastSubstring(_expression.Value);
+                    var lastSubstring = LastSubstring(Expression.Value);
                     if (!(IsNumeric(lastSubstring) || lastSubstring == "."))
-                         _expression.Value += ' ';
+                         Expression.Value += ' ';
                         
-                    if (IsZeroString(_expression.Value) && x != ".")
+                    if (IsZeroString(Expression.Value) && x != ".")
                     {
-                        _expression.Value = x;
+                        Expression.Value = x;
                     }
                     else
                     {
-                        _expression.Value += x;
+                        Expression.Value += x;
                     }
-                    Debug.Log(_expression.Value);
+                    Debug.Log(Expression.Value);
                     
                 }).AddTo(this);
             
@@ -53,17 +95,17 @@ namespace Expressions
                     {
                         if (_constantCalculation == null)
                         {
-                            _constantCalculation = GetConstantCalculation(_expression.Value);
+                            _constantCalculation = GetConstantCalculation(Expression.Value);
                         }
                         else
                         {
-                            _expression.Value += " ";
-                            _expression.Value += _constantCalculation;
+                            Expression.Value += " ";
+                            Expression.Value += _constantCalculation;
                         }
                         
-                        _expression.Value = RpnCalculator.Calculate(_expression.Value).ToString();
+                        Expression.Value = RpnCalculator.Calculate(Expression.Value).ToString();
                         
-                        Debug.Log(_expression.Value);
+                        Debug.Log(Expression.Value);
                         return;
 
                     }
@@ -72,22 +114,56 @@ namespace Expressions
                         _constantCalculation = null;
                     }
                     
-                    if (IsMaxSymbol(_expression.Value))
+                    if (IsMaxSymbol(Expression.Value))
                     {
-                        _expression.Value = RpnCalculator.Calculate(_expression.Value).ToString();
+                        Expression.Value = RpnCalculator.Calculate(Expression.Value).ToString();
                     }
                     
-                    Debug.Log(_expression.Value);
+                    Debug.Log(Expression.Value);
                     
-                    var lastSubstring = LastSubstring(_expression.Value);
+                    var lastSubstring = LastSubstring(Expression.Value);
                     if (IsNumeric(lastSubstring))
                     {
-                        _expression.Value += ' ';
-                        _expression.Value += x;
+                        Expression.Value += ' ';
+                        Expression.Value += x;
                     }
 
-                    Debug.Log(_expression.Value);
+                    Debug.Log(Expression.Value);
                 }).AddTo(this);
+        }
+
+        public void Clear()
+        {
+            Expression.Value = "0";
+        }
+
+        public bool IsLastSymbol()
+        {
+            var s = LastSubstring(Expression.Value);
+            return !IsNumeric(s);
+        }
+        
+        public bool IsSingle()
+        {
+            return OperandList().Count == 1;
+        }
+        
+        public List<string> OperandList()
+        {
+            return Expression.Value.ToString()
+                .Split(' ')
+                .Where(x => x != "")
+                .ToList();
+        }
+        
+        public string OperandString(List<string> l)
+        {
+            string result = "";
+            l.ForEach(x =>
+            {
+                result += x + " ";
+            });
+            return result.Remove(result.Length - 1, 1);
         }
 
         private string GetConstantCalculation(string s)

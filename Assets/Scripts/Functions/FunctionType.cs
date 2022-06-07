@@ -8,5 +8,7 @@ namespace Functions
         MemoryRecall,
         MemoryPlus,
         MemoryMinus,
+        Sqrt,
+        Percentage
     }
 }

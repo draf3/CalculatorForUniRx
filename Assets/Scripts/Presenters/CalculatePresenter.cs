@@ -1,18 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UniRx;
+using Expressions;
+using Functions;
+using Data;
 
-public class CalculatePresenter : MonoBehaviour
+namespace Presenters
 {
-    // Start is called before the first frame update
-    void Start()
+    public class CalculatePresenter : MonoBehaviour
     {
-        
-    }
+        [SerializeField] private Text _screenText;
+        [SerializeField] private Calculation _calculation;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        void Start()
+        {
+            _calculation.Display
+                .Subscribe(x =>
+                {
+                    _screenText.text = x;
+                });
+        }
     }
 }
+    
+    
